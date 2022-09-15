@@ -1,0 +1,286 @@
+@charset "utf-8";
+
+span {
+  display: inline-block;
+}
+.top_a {
+  max-width: 100%;
+  width: 100%;
+}
+
+.top_a,.top_a:hover,.top_a:visited{
+  color: inherit;
+}
+
+.top_b {
+  background-color: antiquewhite;
+}
+
+.title_name {
+  color: aqua;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  background-color: black;
+
+}
+
+.itiran_title {
+  margin-bottom: 20px;
+}
+
+img {
+  width: 100%;
+}
+
+.itiran {
+  /* display: flex; */
+  width: 100%;
+}
+
+/* th {
+  width: 100%;
+} */
+
+
+.img_s {
+  max-width: 100%;
+  background-color: rgb(255, 255, 255);
+  margin: 10px;
+}
+
+.pic_size {
+ width: 20%;
+ padding: 20px;
+
+ align-items:center ;
+}
+
+.txt_center {
+width: 100%;
+}
+
+/* p {
+  margin:  0 0 0 0;
+} */
+
+.th_name {
+  width: 20%;
+}
+
+.th_price {
+ width: 25%;
+}
+
+.th_txt {
+  width: 35%;
+  white-space: pre-line;
+}
+
+@media screen and (max-width:959px) {
+
+  .img_s {
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    margin: 10px;
+  }
+
+  .th_txt {
+    display: none;
+  }
+
+  .top_table {
+    width: 100%;
+  }
+}
+
+a {
+  text-decoration: none;
+  text-align: center;
+  color: black;
+}
+
+
+
+.s_main {
+  display: flex;
+}
+
+.shouhin_img {
+  width: 40%;
+
+}
+
+.shouhin_img img {
+  width: 100%;
+  max-height: 50%;
+  object-fit: contain;
+}
+
+.skaku {
+  background-color: rgb(19, 18, 18);
+  margin: 0 20;
+}
+
+.kakutei_title {
+  max-width: 100%;
+  font-weight: 300;
+  text-align: center;
+  color: rgb(255, 255, 0);
+}
+
+.jouhou {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  background-color: white;
+  text-align: center;
+}
+
+.txt_w {
+  margin-left: auto;
+  margin-right: auto;
+}
+@media screen and (max-width:959px) {
+  .txt_w{
+    width: 80%;
+  }
+}
+
+@media screen and (min-width:960px) {
+  .txt_w{
+    width: 60%;
+  }
+}
+
+.kingaku {
+  color: yellow;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 50px;
+}
+
+.tyukoku {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  line-height: 50px;
+}
+
+.top_button {
+  background-color: blue;
+  text-align: center;
+}
+
+.modoru {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  color: white;
+  margin-top: 100px;
+  padding: 20;
+}
+
+.money {
+  font-weight: bold;
+  color: red
+}
+
+.shousai_r {
+  border-bottom: 2px solid lightgray;
+}
+
+.kutikomi_button {
+  display: flex;
+}
+
+@media screen and (min-width:960px) {
+  .shousai_b {
+  display: flex;
+  width:100%;
+  margin-bottom: 1px;
+}
+
+.shousai_f {
+  display: flex;
+  margin-bottom: 20px;
+}
+}
+
+@media screen and (max-width:959px) {
+  .shousai_b {
+  display: block;
+  width:100%;
+  margin-bottom: 1px;
+}
+
+.shousai_f {
+  display: flex;
+  margin-bottom: 20px;
+}
+}
+
+.cart_number .cart_price {
+  width: 20%;
+}
+
+.cart_button {
+  width: 10%;
+}
+
+.shousai_name {
+  width: 50%;
+}
+
+.favo span {
+  display: inline-block;
+}
+
+.detail-body {
+	font-family: 'Hiragino Kaku Gothic ProN','Hiragino Sans',Meiryo,sans-serif;
+}
+.s-name {
+	font-size: 24px !important;
+    line-height: 32px !important;
+}
+
+.price {
+	color: #B12704;
+}
+
+
+.top-body {
+	
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #999999;
+    border-right: 1px solid #E7E7E7;
+    /* border-bottom: none; */
+    padding: 1px;
+    padding-bottom: 1px;
+
+}
+
+.top-content {
+	display: inline-block;
+    width: 23%;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 0.8em;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    min-height: 380px;
+    vertical-align: top;
+    letter-spacing: normal;
+}
+
+.content-name {
+	    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    text-decoration: none;
+    vertical-align: baseline;
+    background: transparent;
+    color: #35A18B;
+    text-decoration: underline;
+}
