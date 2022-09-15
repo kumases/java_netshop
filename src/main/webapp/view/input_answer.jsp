@@ -14,6 +14,8 @@
 <%
 //「inqueries」テーブルからデータを抽出
 List<InqueriesDto> list = (List<InqueriesDto>) request.getAttribute("INQUERIES_LIST");
+String param = request.getParameter("id");
+int id = Integer.parseInt(param);
 %>
 
 <html>
@@ -23,7 +25,7 @@ List<InqueriesDto> list = (List<InqueriesDto>) request.getAttribute("INQUERIES_L
 <body   class="wrapper" style="text-align:center">
 <%@ include file="header.jsp" %>
 	<h2>お問い合わせ回答</h2>
-	<form action="AddInquery" method="post" enctype='multipart/form-data' id="answer_form">
+	
 	<%
 		for (int i = 0; i < list.size(); i++) {
 			InqueriesDto dto = list.get(i);
@@ -38,14 +40,15 @@ List<InqueriesDto> list = (List<InqueriesDto>) request.getAttribute("INQUERIES_L
 			問い合わせ内容：<br>
 			<%if(dto.getInquery_post() !=null && dto.getInquery_post().length() != 0){ %><%= replaceEscapeChar(dto.getInquery_post()) %><%} %>
 		</p>
-		<p>回答：
-			<br> <textarea name="inquery" style="width:500px;height:200px" onkeyup="ShowLength(value);"></textarea>
-		</p>
+		
 		<%
 		}
 		
 		%>
-		
+		<form action="AddAnswer?id=<%=id %>" method="post">
+		<p>回答：
+			<br> <textarea name="message" style="width:500px;height:200px" onkeyup="ShowLength(value);"></textarea>
+		</p>
 		<p id="inputlength">0文字</p>
 		<input type="submit" value="決定" id="ID_SUBMIT">
 	</form>

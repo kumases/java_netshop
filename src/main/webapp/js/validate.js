@@ -15,11 +15,13 @@ $('#item_form').validate({
 				maxlength:255
         },
         syousai: { 
+				required: true,
+				maxlength:255 
+        },
+        picture: { 
 				required: true 
         },
-        email: { 
-				required: true 
-        },
+        
     },
 	messages: {
             name: {
@@ -39,10 +41,12 @@ $('#item_form').validate({
                 required: '入力してください',
                 maxlength:'255文字までです'
             },
-            email: {
+            picture: {
                 required: '入力してください'
+               
             },
-        }
+           
+        },
 });
 
 $('#inquery_form').validate({
@@ -56,7 +60,7 @@ $('#inquery_form').validate({
         inquery: { 
 				required: true ,
 				maxlength:255
-        },
+        }
     },
 	messages: {
             name: {

@@ -55,7 +55,7 @@ List<UsersDto> list = (List<UsersDto>) request.getAttribute("ALL_USERS_LIST");
 			<%
 			if (userInfoOnSession.getUserId() == 1) {
 			%>
-			<th>作成日</th>
+			<th>登録日</th>
 			<th>操作</th>
 			<%
 			}
@@ -165,6 +165,7 @@ List<UsersDto> list = (List<UsersDto>) request.getAttribute("ALL_USERS_LIST");
 			</td>
 			<td>
 				<p style="text-align: center">
+					<a href="Reviews?id=<%=dto.getUserId()%>">レビュー</a>
 					<a href="EditUser?id=<%=dto.getUserId()%>">変更</a>&nbsp; 
 					<a href="DeleteUser?id=<%=dto.getUserId()%>"  onclick="return confirm('削除しますか?')">削除</a>
 				</p>

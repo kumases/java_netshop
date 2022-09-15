@@ -172,7 +172,7 @@ public class AnswersDao {
 	 *引数　：なし
 	 *戻り値：抽出結果（DTOリスト）
 	 *----------------------------------------------------------------------**/
-	public List<InqueriesDto> doSelect(int id) {
+	public List<InqueriesAndAnswerDto> doSelect(int id) {
 
 		//-------------------------------------------
 		//JDBCドライバのロード
@@ -193,7 +193,7 @@ public class AnswersDao {
 		ResultSet         rs  = null ;   // ResultSet（SQL抽出結果）格納用変数
 
 		//抽出結果格納用DTOリスト
-		List<InqueriesDto> dtoList = new ArrayList<InqueriesDto>();
+		List<InqueriesAndAnswerDto> dtoList = new ArrayList<InqueriesAndAnswerDto>();
 
 		try {
 
@@ -213,9 +213,15 @@ public class AnswersDao {
 			buf.append("  inquery_post,                ");
 			buf.append("  name,              ");
 			buf.append("  user_id,              ");
-			buf.append("  created              ");
+			buf.append("  inqueries.created,              ");
+			buf.append("  message,              ");
+			buf.append("  answers.created              ");
 			buf.append("  FROM                  ");
 			buf.append("  inqueries            ");
+			buf.append("  left outer join            ");
+			buf.append("  answers            ");
+			buf.append("  on            ");
+			buf.append("  inqueries.id = answers.inquery_id            ");
 			buf.append("  WHERE               ");
 			buf.append("  user_id = ?               ");
 
@@ -225,12 +231,14 @@ public class AnswersDao {
 
 			//ResultSetオブジェクトからDTOリストに格納
 			while (rs.next()) {
-				InqueriesDto dto = new InqueriesDto();
+				InqueriesAndAnswerDto dto = new InqueriesAndAnswerDto();
 				dto.setEmail(              rs.getString(    "email"               ) );
 				dto.setInquery_post(              rs.getString(    "inquery_post"               ) );
 				dto.setName(              rs.getString(    "name"               ) );
 				dto.setUser_id(              rs.getInt(    "user_id"               ) );
-				dto.setTime(               rs.getTimestamp(       "created"                ) );
+				dto.setInquery_time(               rs.getTimestamp(       "inqueries.created"                ) );
+				dto.setMessage(rs.getString("message"));
+				dto.setAnswer_time(rs.getTimestamp("answers.created"));
 				dtoList.add(dto);
 			}
 

@@ -147,6 +147,7 @@ List<UsersDto> list = (List<UsersDto>) request.getAttribute("USER_LIST");
 			if (userInfoOnSession.getUserId() == 1) {
 			%>
 				<p>
+				<a href="Reviews?id=<%=dto.getUserId()%>">レビュー</a>&nbsp;
 					<a href="EditUser?id=<%=dto.getUserId()%>">変更</a>&nbsp;
 					<a href="DeleteUser?id=<%=dto.getUserId()%>">削除</a>
 				</p>

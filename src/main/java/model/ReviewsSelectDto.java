@@ -17,6 +17,7 @@ public class ReviewsSelectDto {
 	private int reviews_item_id;
 	private String reviews_comment;
 	private int reviews_star;
+	private String users_name;
 	private String users_nickname;
 	private String items_name ;
 	private String items_picture;
@@ -59,6 +60,12 @@ public class ReviewsSelectDto {
 	}
 	public void setUsers_nickname(String users_nickname) {
 		this.users_nickname = users_nickname;
+	}
+	public String getUsers_name() {
+		return users_name;
+	}
+	public void setUsers_name(String users_name) {
+		this.users_name = users_name;
 	}
 	public String getItems_name() {
 		return items_name;

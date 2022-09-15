@@ -19,7 +19,7 @@ UsersDto userInfoOnSession = (UsersDto)session.getAttribute("LOGIN_INFO");
 
 <html>
 <head>
-<title>回答入力</title>
+<title>商品追加</title>
 </head>
 <body>
 	<h2>商品追加</h2>

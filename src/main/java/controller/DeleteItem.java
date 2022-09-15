@@ -45,7 +45,7 @@ public class DeleteItem extends HttpServlet {
 			DeleteItemBL logic = new DeleteItemBL();
 			logic.executeDeleteItems(item_id);
 
-			response.sendRedirect("ShowAllItems");
+			response.sendRedirect("ItemsHistory");
 
 		} else {
 			//未ログイン：ログイン画面へ転送

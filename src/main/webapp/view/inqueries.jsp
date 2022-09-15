@@ -4,7 +4,7 @@
 <%@ page import="model.UsersDto"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
-<%@ page import="model.InqueriesDto"%>
+<%@ page import="model.InqueriesAndAnswerDto"%>
 <%--
 -------------------------------------------------------------------------------------------------
 ■■■ファイル名：input_survey.jsp■■■
@@ -14,7 +14,7 @@
 --%>
 
 <%
-List<InqueriesDto> list = (List<InqueriesDto>) request.getAttribute("INQUERIES");
+List<InqueriesAndAnswerDto> list = (List<InqueriesAndAnswerDto>) request.getAttribute("INQUERIES");
 %>
 
 <html>
@@ -32,16 +32,32 @@ List<InqueriesDto> list = (List<InqueriesDto>) request.getAttribute("INQUERIES")
 		<%
 		for (int i = 0; i < list.size(); i++) {
 
-			InqueriesDto dto = list.get(i);
+			InqueriesAndAnswerDto dto = list.get(i);
 		%>
 		<hr>
 		<p>お問い合わせ内容<br>
 		<%= replaceEscapeChar(dto.getInquery_post()) %>
 		</p>
 		<p>お問い合わせ日時<br>
-		<%= dto.getTime() %>
+		<%= dto.getInquery_time() %>
 		</p>
 		<%
+		if(dto.getMessage() != null && dto.getMessage().length() != 0) {
+		%>
+		<p>回答<br>
+		<%= replaceEscapeChar(dto.getMessage()) %>
+		</p>
+		<p>回答日時<br>
+		<%= dto.getAnswer_time() %>
+		</p>
+		<%
+		}else {
+		%>
+		<p>回答<br>
+		回答はありません
+		</p>
+		<%
+		}
 		}
 		%>
 	<%

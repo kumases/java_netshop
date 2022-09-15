@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.InqueriesAndAnswerDto;
-import model.ShowInqueriesBL;
+import model.ReviewsSelectDto;
+import model.ShowReviewsBL;
 import model.UsersDto;
 
 
@@ -22,10 +22,10 @@ import model.UsersDto;
  *概要：サーブレット
  *詳細：「survey」テーブルのデータを全件抽出して回答一覧画面を出力する。
  *----------------------------------------------------------------------**/
-public class ShowInqueryMine  extends HttpServlet {
+public class Reviews extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public ShowInqueryMine() {
+	public Reviews() {
 		super();
 	}
 
@@ -38,20 +38,22 @@ public class ShowInqueryMine  extends HttpServlet {
 		//セッションからユーザーデータを取得
 		HttpSession session           = request.getSession();
 		UsersDto userInfoOnSession = (UsersDto)session.getAttribute("LOGIN_INFO");
-
+		String param = request.getParameter("id");
+		int user_id = Integer.parseInt(param);
 		//ログイン状態によって表示画面を振り分ける
 		if (userInfoOnSession != null) {
 			//ログイン済：回答一覧画面を出力
 
-			//「items」テーブルのデータを抽出
-			List<InqueriesAndAnswerDto> list  = new ArrayList<InqueriesAndAnswerDto>();
-			ShowInqueriesBL logic = new ShowInqueriesBL();
-			list = logic.executeSelectInqueries(userInfoOnSession.getUserId());
+			//「reviews」テーブルのデータを抽出
+			List<ReviewsSelectDto> list  = new ArrayList<ReviewsSelectDto>();
+			ShowReviewsBL logic = new ShowReviewsBL();
+			list = logic.executeSelectReviews2(user_id);
 
-			request.setAttribute( "INQUERIES" , list );
+
+			request.setAttribute( "REVIEWS_LIST" , list );
 
 			//Viewにフォワード（フォワード先：show_survey_by_satisfaction_level.jsp）
-			RequestDispatcher dispatch = request.getRequestDispatcher("/view/inqueries.jsp");
+			RequestDispatcher dispatch = request.getRequestDispatcher("/view/reviews_by_user.jsp");
 			dispatch.forward(request, response);
 
 		} else {

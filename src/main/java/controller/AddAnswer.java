@@ -1,6 +1,5 @@
 package controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
@@ -11,24 +10,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
 
-import model.AddItemBL;
-import model.ItemsDto;
+import model.AddAnswerBL;
+import model.AnswersDto;
 import model.UsersDto;
 
 
+@MultipartConfig
 /**----------------------------------------------------------------------*
  *■■■SaveSurveyクラス■■■
  *概要：サーブレット
  *詳細：リクエスト（アンケートデータ）を「survey」テーブルに登録し、画面遷移する。
  *　　　＜遷移先＞登録成功：回答完了画面（finish.html）／登録失敗：エラー画面（error.html）
  *----------------------------------------------------------------------**/
-@MultipartConfig
-public class AddItem extends HttpServlet {
+public class AddAnswer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public AddItem() {
+	public AddAnswer() {
 		super();
 	}
 
@@ -56,10 +54,8 @@ public class AddItem extends HttpServlet {
 			boolean succesFlg = true;  //成功フラグ（true:成功/false:失敗）
 
 			//パラメータのバリデーションチェック
-			if( !(validateNull(request.getParameter("name"))      &&
-					validateNull(request.getParameter("setumei")) &&
-					validateNull(request.getParameter("syousai")) &&
-					validatePrmNum(request.getParameter("price"))   &&
+			if( (validatePrmName(request.getParameter("name"))      &&
+					validatePrmNum(request.getParameter("price"))       &&
 					validatePrmNum(request.getParameter("stock"))  )) {
 
 				//バリデーションNGの場合
@@ -67,37 +63,25 @@ public class AddItem extends HttpServlet {
 
 			}else {
 				//バリデーションOKの場合
-				String filename = null;
-				Part part=request.getPart("picture");
-				if(part.getSubmittedFileName() != null && part.getSubmittedFileName() !="") {
-				filename=part.getSubmittedFileName();
-				}
+
+				int user_id = userInfoOnSession.getUserId();
+				String param = request.getParameter("id");
+				int id = Integer.parseInt(param);
 				//リクエストパラメータを取得
-				String name              = request.getParameter("name");
-				int    price               = Integer.parseInt( request.getParameter("price") );
-				int    stock               = Integer.parseInt( request.getParameter("stock") );
-				String    setumei               = request.getParameter("setumei");
-				String    syousai               = request.getParameter("syousai");
-				String    picture               = filename;
+				
+				String message              = request.getParameter("message");
+
+
 
 				//アンケートデータ（SurveyDto型）の作成
-				ItemsDto dto = new ItemsDto();
-				dto.setName( name );
-				dto.setPrice( price );
-				dto.setStock( stock );
-				dto.setSetumei( setumei);
-				dto.setSyousai( syousai );
-				dto.setPicture( picture );
+				AnswersDto dto = new AnswersDto();
+				dto.setInquery_id( id);
+				dto.setMessage( message);
 				dto.setTime( new Timestamp(System.currentTimeMillis()) );   //現在時刻を更新時刻として設定
 
 				//アンケートデータをDBに登録
-				AddItemBL logic = new AddItemBL();
-				succesFlg          = logic.executeInsertItem(dto);  //成功フラグ（true:成功/false:失敗）
-
-				if(part.getSubmittedFileName() != null && part.getSubmittedFileName() !="") {
-				String path=getServletContext().getRealPath("view/img");
-				part.write(path+File.separator+filename);
-				}
+				AddAnswerBL logic = new AddAnswerBL();
+				succesFlg          = logic.executeInsertAnswer(dto);  //成功フラグ（true:成功/false:失敗）
 				}
 
 			//成功/失敗に応じて表示させる画面を振り分ける
@@ -125,9 +109,9 @@ public class AddItem extends HttpServlet {
 	/**----------------------------------------------------------------------*
 	 *■■■validatePrmNameクラス■■■
 	 *概要：バリデーションチェック
-	 *詳細：入力値 の検証を行う
+	 *詳細：入力値（名前）の検証を行う
 	 *----------------------------------------------------------------------**/
-	private boolean validateNull( String pr) {
+	private boolean validatePrmName( String pr) {
 
 		boolean validateResult = true ;
 
@@ -142,7 +126,7 @@ public class AddItem extends HttpServlet {
 	/**----------------------------------------------------------------------*
 	 *■■■validatePrmAgeクラス■■■
 	 *概要：バリデーションチェック
-	 *詳細：入力値（数値）の検証を行う
+	 *詳細：入力値（年齢）の検証を行う
 	 *----------------------------------------------------------------------**/
 	private boolean validatePrmNum( String pr) {
 

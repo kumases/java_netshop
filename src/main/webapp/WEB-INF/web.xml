@@ -387,5 +387,21 @@
 		<servlet-name>InputAnswer</servlet-name>
 		<url-pattern>/InputAnswer</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>Reviews</servlet-name>
+		<servlet-class>controller.Reviews</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Reviews</servlet-name>
+		<url-pattern>/Reviews</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>AddAnswer</servlet-name>
+		<servlet-class>controller.AddAnswer</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddAnswer</servlet-name>
+		<url-pattern>/AddAnswer</url-pattern>
+	</servlet-mapping>
 </web-app>
 
