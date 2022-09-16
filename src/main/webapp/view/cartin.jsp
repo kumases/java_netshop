@@ -28,7 +28,7 @@ int id = Integer.parseInt(param);
   <title>完了</title>
 </head>
 <body>
-  <p>カートに追加しました。</p>
+  <p>追加しました。</p>
   <br>
   <a href="Detail?id=<%= id %>">OK</a>
   <br>

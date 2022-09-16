@@ -87,6 +87,7 @@ public class UsersDao {
 			buf.append("   id  ,       ");
 			buf.append("   name,       ");
 			buf.append("   nickname,       ");
+			buf.append("   email,         ");
 			buf.append("   pass         ");
 			buf.append(" FROM               ");
 			buf.append("   users        ");
@@ -113,6 +114,7 @@ public class UsersDao {
 				dto.setUserName(rs.getString("name")); //ユーザー名
 				dto.setNickname(rs.getString("nickname")); //表示名
 				dto.setPassWord(rs.getString("pass")); //ユーザーパスワード
+				dto.setEmail(rs.getString("email")); //表示名
 			}
 
 		} catch (SQLException e) {

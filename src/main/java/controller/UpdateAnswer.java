@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.UpdateUserBL;
+import model.AnswersDto;
+import model.UpdateAnswerBL;
 import model.UsersDto;
 
 
@@ -22,10 +23,10 @@ import model.UsersDto;
  *詳細：リクエスト（アンケートデータ）を「survey」テーブルに登録し、画面遷移する。
  *　　　＜遷移先＞登録成功：回答完了画面（finish.html）／登録失敗：エラー画面（error.html）
  *----------------------------------------------------------------------**/
-public class UpdateUserInfo extends HttpServlet {
+public class UpdateAnswer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public UpdateUserInfo() {
+	public UpdateAnswer() {
 		super();
 	}
 
@@ -53,8 +54,8 @@ public class UpdateUserInfo extends HttpServlet {
 			boolean succesFlg = true;  //成功フラグ（true:成功/false:失敗）
 
 			//パラメータのバリデーションチェック
-			if( (validatePrmName(request.getParameter("name"))                &&
-					validatePrmNum(request.getParameter("price"))                  &&
+			if( (validatePrmName(request.getParameter("name"))      &&
+					validatePrmNum(request.getParameter("price"))       &&
 					validatePrmNum(request.getParameter("stock"))  )) {
 
 				//バリデーションNGの場合
@@ -63,50 +64,31 @@ public class UpdateUserInfo extends HttpServlet {
 			}else {
 				//バリデーションOKの場合
 
+				int user_id = userInfoOnSession.getUserId();
+				String param = request.getParameter("id");
+				int id = Integer.parseInt(param);
 				//リクエストパラメータを取得
-				int    id               = Integer.parseInt( request.getParameter("id") );
-				String name              = request.getParameter("name");
-				String name_kana              = request.getParameter("name_kana");
-				String nickname              = request.getParameter("nickname");
-				int    sex               = Integer.parseInt( request.getParameter("sex") );
-				String birthday              = request.getParameter("birthday");
-				String zipcode              = request.getParameter("zipcode");
-				String address              = request.getParameter("address");
-				String tell              = request.getParameter("tell");
-				String email              = request.getParameter("email");
-				String pass              = request.getParameter("pass");
+				
+				String message              = request.getParameter("message");
+
+
 
 				//アンケートデータ（SurveyDto型）の作成
-				UsersDto dto = new UsersDto();
-				dto.setUserId( id);
-				dto.setUserName( name );
-				dto.setName_kana( name_kana);
-				dto.setNickname( nickname );
-				dto.setSex( sex);
-				dto.setBirthday( birthday);
-				dto.setZipcode( zipcode);
-				dto.setAddress( address);
-				dto.setTell( tell);
-				dto.setEmail( email);
-				dto.setPassWord( pass);
+				AnswersDto dto = new AnswersDto();
+				dto.setInquery_id( id);
+				dto.setMessage( message);
 				dto.setTime( new Timestamp(System.currentTimeMillis()) );   //現在時刻を更新時刻として設定
 
 				//アンケートデータをDBに登録
-				UpdateUserBL logic = new UpdateUserBL();
-				succesFlg          = logic.executeUpdateUser(dto);  //成功フラグ（true:成功/false:失敗）
-
+				UpdateAnswerBL logic = new UpdateAnswerBL();
+				succesFlg          = logic.executeUpdateAnswer(dto);  //成功フラグ（true:成功/false:失敗）
 				}
 
 			//成功/失敗に応じて表示させる画面を振り分ける
 			if (succesFlg) {
 
 				//成功した場合、回答完了画面（finish.html）を表示する
-				if(userInfoOnSession.getUserId() ==1) {
 				response.sendRedirect("htmls/addfinish.html");
-				}else {
-					session.invalidate();
-				response.sendRedirect("htmls/addfinish2.html");
-				}
 			} else {
 
 				//失敗した場合、エラー画面（error.html）を表示する

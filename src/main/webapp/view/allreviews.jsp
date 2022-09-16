@@ -57,7 +57,7 @@ List<ReviewsSelectDto> list = (List<ReviewsSelectDto>) request.getAttribute("ALL
 			<td><p style="width: 100%; text-align: center"><a href="Detail?id=<%= dto.getReviews_item_id() %>"><%=replaceEscapeChar(dto.getItems_name())%></a></p></td>
 			<td><p style="width: 100%; text-align: center"><%=replaceEscapeChar(dto.getUsers_nickname())%></p></td>
 			<td><p style="width: 100%; text-align: center"><%=dto.getReviews_star() %></p></td>
-			<td><p style="width: 100%; text-align: center"><%=dto.getReviews_comment()%></p></td>
+			<td><p style="width: 100%; text-align: center"><%=replaceEscapeChar(dto.getReviews_comment())%></p></td>
 			<td><p style="width: 100%; text-align: center"><%=dto.getCreatedtime() %></p></td>
 			<%
 			if(dto.getDeletedtime() == null) {

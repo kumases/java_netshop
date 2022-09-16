@@ -403,5 +403,13 @@
 		<servlet-name>AddAnswer</servlet-name>
 		<url-pattern>/AddAnswer</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>UpdateAnswer</servlet-name>
+		<servlet-class>controller.UpdateAnswer</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdateAnswer</servlet-name>
+		<url-pattern>/UpdateAnswer</url-pattern>
+	</servlet-mapping>
 </web-app>
 

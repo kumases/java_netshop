@@ -26,5 +26,19 @@ public class ShowInqueriesBL {
 
 
 	}
+	public List<InqueriesAndAnswerDto> executeSelectInqueries2(int id) {
+
+		//-------------------------------------------
+		//データベースへの接続を実施
+		//-------------------------------------------
+
+		//DAOクラスをインスタンス化＆itemsテーブルからデータ取得
+		AnswersDao dao = new AnswersDao();
+		List<InqueriesAndAnswerDto> dtoList= dao.doSelect2(id);
+
+		return dtoList;
+
+
+	}
 
 }

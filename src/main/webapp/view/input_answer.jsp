@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <%@ page import="model.UsersDto"%>
-<%@ page import="model.InqueriesDto"%>
+<%@ page import="model.InqueriesAndAnswerDto"%>
 
 <%--
 -------------------------------------------------------------------------------------------------
@@ -13,7 +13,7 @@
 --%>
 <%
 //「inqueries」テーブルからデータを抽出
-List<InqueriesDto> list = (List<InqueriesDto>) request.getAttribute("INQUERIES_LIST");
+List<InqueriesAndAnswerDto> list = (List<InqueriesAndAnswerDto>) request.getAttribute("INQUERIES_LIST");
 String param = request.getParameter("id");
 int id = Integer.parseInt(param);
 %>
@@ -27,8 +27,9 @@ int id = Integer.parseInt(param);
 	<h2>お問い合わせ回答</h2>
 	
 	<%
+	    String answer = null;
 		for (int i = 0; i < list.size(); i++) {
-			InqueriesDto dto = list.get(i);
+			InqueriesAndAnswerDto dto = list.get(i);
 		%>
 		<p>
 			名前：<%= replaceEscapeChar(dto.getName()) %>
@@ -38,20 +39,35 @@ int id = Integer.parseInt(param);
 		</p>
 		<p>
 			問い合わせ内容：<br>
+			<span style="overflow-wrap:break-word;inline-size: 500px;">
 			<%if(dto.getInquery_post() !=null && dto.getInquery_post().length() != 0){ %><%= replaceEscapeChar(dto.getInquery_post()) %><%} %>
+			</span>
 		</p>
+		<%if(dto.getMessage() != null) { answer = dto.getMessage(); } %>
 		
 		<%
 		}
 		
 		%>
-		<form action="AddAnswer?id=<%=id %>" method="post">
+		 <%if(answer != null) { %>
+		<form action="UpdateAnswer?id=<%= id %>" method="post">
+		<p>回答：
+			<br> <textarea name="message" style="width:500px;height:200px" onkeyup="ShowLength(value);"><%=answer%></textarea>
+		</p>
+		<p id="inputlength"><%=answer.length()%>文字</p>
+		<input type="submit" value="変更" id="ID_SUBMIT">
+	</form>
+	<%
+	} else {
+	%>
+	<form action="AddAnswer?id=<%= id %>" method="post">
 		<p>回答：
 			<br> <textarea name="message" style="width:500px;height:200px" onkeyup="ShowLength(value);"></textarea>
 		</p>
 		<p id="inputlength">0文字</p>
 		<input type="submit" value="決定" id="ID_SUBMIT">
 	</form>
+	<%}%>
 	<br>
 	<footer>
 	<%@ include file="footer.jsp" %>

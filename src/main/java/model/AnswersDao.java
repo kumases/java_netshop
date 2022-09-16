@@ -281,7 +281,7 @@ public class AnswersDao {
 		return dtoList;
 	}
 	
-	public List<InqueriesDto> doSelectAll() {
+	public List<InqueriesAndAnswerDto> doSelect2(int id) {
 
 		//-------------------------------------------
 		//JDBCドライバのロード
@@ -302,7 +302,7 @@ public class AnswersDao {
 		ResultSet         rs  = null ;   // ResultSet（SQL抽出結果）格納用変数
 
 		//抽出結果格納用DTOリスト
-		List<InqueriesDto> dtoList = new ArrayList<InqueriesDto>();
+		List<InqueriesAndAnswerDto> dtoList = new ArrayList<InqueriesAndAnswerDto>();
 
 		try {
 
@@ -318,31 +318,38 @@ public class AnswersDao {
 			//発行するSQL文の生成（SELECT）
 			StringBuffer buf = new StringBuffer();
 			buf.append("SELECT                ");
-			buf.append("  id,               ");
-			buf.append("  name,               ");
-			buf.append("  email,                ");
+			buf.append("  email,               ");
 			buf.append("  inquery_post,                ");
-			buf.append("  user_id,  ");
-			buf.append("  created            ");
-			buf.append("FROM                  ");
-			buf.append(" inqueries              ");
-
+			buf.append("  name,              ");
+			buf.append("  user_id,              ");
+			buf.append("  inqueries.created,              ");
+			buf.append("  message,              ");
+			buf.append("  answers.created              ");
+			buf.append("  FROM                  ");
+			buf.append("  inqueries            ");
+			buf.append("  left outer join            ");
+			buf.append("  answers            ");
+			buf.append("  on            ");
+			buf.append("  inqueries.id = answers.inquery_id            ");
+			buf.append("  WHERE               ");
+			buf.append("  inqueries.id = ?               ");
 
 			ps = con.prepareStatement(buf.toString());
+			ps.setInt(       1, id );
 			rs = ps.executeQuery();
 
 			//ResultSetオブジェクトからDTOリストに格納
-				while (rs.next()) {
-					InqueriesDto dto = new InqueriesDto();
-					dto.setId(              rs.getInt(    "id"               ) );
-					dto.setEmail(              rs.getString(    "email"               ) );
-					dto.setInquery_post(              rs.getString(    "inquery_post"               ) );
-					dto.setName(              rs.getString(    "name"               ) );
-					dto.setUser_id(              rs.getInt(    "user_id"               ) );
-					dto.setTime(               rs.getTimestamp(       "created"                ) );
-					dtoList.add(dto);
-				}
-			
+			while (rs.next()) {
+				InqueriesAndAnswerDto dto = new InqueriesAndAnswerDto();
+				dto.setEmail(              rs.getString(    "email"               ) );
+				dto.setInquery_post(              rs.getString(    "inquery_post"               ) );
+				dto.setName(              rs.getString(    "name"               ) );
+				dto.setUser_id(              rs.getInt(    "user_id"               ) );
+				dto.setInquery_time(               rs.getTimestamp(       "inqueries.created"                ) );
+				dto.setMessage(rs.getString("message"));
+				dto.setAnswer_time(rs.getTimestamp("answers.created"));
+				dtoList.add(dto);
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -382,6 +389,97 @@ public class AnswersDao {
 		//抽出結果を返す
 		return dtoList;
 	}
+	
+	public boolean doUpdate(AnswersDto dto) {
+
+		//-------------------------------------------
+		//JDBCドライバのロード
+		//-------------------------------------------
+		try {
+			Class.forName(DRIVER_NAME);       //JDBCドライバをロード＆接続先として指定
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		//-------------------------------------------
+		//SQL発行
+		//-------------------------------------------
+
+		//JDBCの接続に使用するオブジェクトを宣言
+		//※finallyブロックでも扱うためtryブロック内で宣言してはいけないことに注意
+		Connection        con = null ;   // Connection（DB接続情報）格納用変数
+		PreparedStatement ps  = null ;   // PreparedStatement（SQL発行用オブジェクト）格納用変数
+
+		//実行結果（真：成功、偽：例外発生）格納用変数
+		//※最終的にreturnするため、tryブロック内で宣言してはいけないことに注意
+		boolean isSuccess = true ;
+
+		try {
+
+			//-------------------------------------------
+			//接続の確立（Connectionオブジェクトの取得）
+			//-------------------------------------------
+			con = DriverManager.getConnection(JDBC_URL, USER_ID, USER_PASS);
+
+			//-------------------------------------------
+			//トランザクションの開始
+			//-------------------------------------------
+			//オートコミットをオフにする（トランザクション開始）
+			con.setAutoCommit(false);
+
+			//-------------------------------------------
+			//SQL文の送信 ＆ 結果の取得
+			//-------------------------------------------
+
+			//発行するSQL文の生成（INSERT）
+			StringBuffer buf = new StringBuffer();
+			buf.append("UPDATE  answers SET   ");
+			buf.append("  message = ?,               ");
+			buf.append("  created = ?               ");
+			buf.append(" WHERE           ");
+			buf.append("  inquery_id = ?         ");
+
+			//PreparedStatementオブジェクトを生成＆発行するSQLをセット
+			ps = con.prepareStatement(buf.toString());
+			//パラメータをセット
+			ps.setString(    1, dto.getMessage()              ); 
+			ps.setTimestamp(    2, dto.getTime()              );
+			ps.setInt(    3, dto.getInquery_id()              ); 
+			//SQL文の実行
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+			//実行結果を例外発生として更新
+			isSuccess = false ;
+
+		} finally {
+			//-------------------------------------------
+			//トランザクションの終了
+			//-------------------------------------------
+			if(isSuccess){
+				//明示的にコミットを実施
+				try {
+					con.commit();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+			}else{
+				//明示的にロールバックを実施
+				try {
+					con.rollback();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+			//抽出結果を返す
+			return isSuccess;
+		}
+	
 
 	public boolean doDeleteOne(int id) {
 

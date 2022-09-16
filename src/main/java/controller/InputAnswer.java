@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.InqueriesDto;
-import model.SelectInqueryBL;
+import model.InqueriesAndAnswerDto;
+import model.ShowInqueriesBL;
 import model.UsersDto;
 
 
@@ -44,10 +44,9 @@ public class InputAnswer extends HttpServlet {
 		String param = request.getParameter("id");
 		int id = Integer.parseInt(param);
 		
-		List<InqueriesDto> list  = new ArrayList<InqueriesDto>();
-		SelectInqueryBL logic = new SelectInqueryBL();
-					
-		list = logic.executeSelectInqueries(id);
+		List<InqueriesAndAnswerDto> list  = new ArrayList<InqueriesAndAnswerDto>();
+		ShowInqueriesBL logic = new ShowInqueriesBL();
+		list = logic.executeSelectInqueries2(id);
 
 		request.setAttribute( "INQUERIES_LIST" , list );
 		

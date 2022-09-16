@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import model.ItemsDto;
 import model.UpdateItemBL;
@@ -63,7 +65,12 @@ public class UpdateItem extends HttpServlet {
 
 			}else {
 				//バリデーションOKの場合
-
+				String filename = null;
+				Part part=request.getPart("picture");
+				if(part.getSubmittedFileName() != null && part.getSubmittedFileName() !="") {
+				filename=part.getSubmittedFileName();
+				}
+				
 				//リクエストパラメータを取得
 				int    id               = Integer.parseInt( request.getParameter("id") );
 				String name              = request.getParameter("name");
@@ -71,11 +78,10 @@ public class UpdateItem extends HttpServlet {
 				int    stock               = Integer.parseInt( request.getParameter("stock") );
 				String setumei              = request.getParameter("setumei");
 				String syousai              = request.getParameter("syousai");
-				String picture = null;
-				if(request.getParameter("picture") !=null && request.getParameter("picture").length() !=0) {
-				 picture             = request.getParameter("picture");
-				}
-
+				String picture = filename;
+				
+				
+					
 				//アンケートデータ（SurveyDto型）の作成
 				ItemsDto dto = new ItemsDto();
 				dto.setId( id);
@@ -91,6 +97,10 @@ public class UpdateItem extends HttpServlet {
 				UpdateItemBL logic = new UpdateItemBL();
 				succesFlg          = logic.executeUpdateItem(dto);  //成功フラグ（true:成功/false:失敗）
 
+				if(part.getSubmittedFileName() != null && part.getSubmittedFileName() !="") {
+					String path=getServletContext().getRealPath("view/img");
+					part.write(path+File.separator+filename);
+					}
 				}
 
 			//成功/失敗に応じて表示させる画面を振り分ける

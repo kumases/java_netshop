@@ -24,6 +24,11 @@ List<UsersDto> list = (List<UsersDto>) request.getAttribute("ALL_USERS_LIST");
 <html>
 <head>
 <title>ユーザー一覧</title>
+<style type="text/css">
+ td, th {
+    border-bottom: 1px solid black;
+}
+</style>
 </head>
 <body>
 	<h2>一覧</h2>
@@ -66,7 +71,6 @@ List<UsersDto> list = (List<UsersDto>) request.getAttribute("ALL_USERS_LIST");
 		for (int i = 0; i < list.size(); i++) {
 			UsersDto dto = list.get(i);
 		%>
-
 		<tr>
 			<%
 			if (userInfoOnSession.getUserId() == 1) {
@@ -90,7 +94,23 @@ List<UsersDto> list = (List<UsersDto>) request.getAttribute("ALL_USERS_LIST");
 				<p style="width: 100%; text-align: center"><%=replaceEscapeChar(dto.getNickname())%></p>
 			</td>
 			<td>
-				<p style="width: 100%; text-align: center"><%=dto.getSex()%></p>
+				<p style="width: 100%; text-align: center">
+				<%
+			if(dto.getSex() ==1) {
+			%>
+			男
+			<%
+			}else if(dto.getSex() ==2) {
+			%>
+			女
+			<%
+			}else if(dto.getSex() ==3) {
+			%>
+			その他
+			<%
+			}
+			%>
+			</p>
 			</td>
 			<%
 			if (dto.getBirthday() != null && dto.getBirthday().length() != 0) {
@@ -122,7 +142,7 @@ List<UsersDto> list = (List<UsersDto>) request.getAttribute("ALL_USERS_LIST");
 			if (dto.getAddress() != null && dto.getAddress().length() != 0) {
 			%>
 			<td>
-				<p style="width: 100%; text-align: center"><%=replaceEscapeChar(dto.getAddress())%></p>
+				<p style="text-align: center ;width: 300px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"><%=replaceEscapeChar(dto.getAddress())%></p>
 			</td>
 			<%
 			} else {

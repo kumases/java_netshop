@@ -18,9 +18,6 @@ $('#item_form').validate({
 				required: true,
 				maxlength:255 
         },
-        picture: { 
-				required: true 
-        },
         
     },
 	messages: {
@@ -40,10 +37,6 @@ $('#item_form').validate({
             syousai: {
                 required: '入力してください',
                 maxlength:'255文字までです'
-            },
-            picture: {
-                required: '入力してください'
-               
             },
            
         },

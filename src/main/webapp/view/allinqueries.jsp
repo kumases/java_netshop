@@ -93,7 +93,7 @@ List<InqueriesDto> list = (List<InqueriesDto>) request.getAttribute("ALL_INQUERI
 			}
 			%>
 			<td>
-				<p style="width: 100%; text-align: center"><%=replaceEscapeChar(dto.getInquery_post())%></p>
+				<p style="width: 100%; text-align: center;overflow-wrap:break-word;inline-size: 500px;"><%=replaceEscapeChar(dto.getInquery_post())%></p>
 			</td>
 			<%
 			if (userInfoOnSession.getUserId() == 1) {

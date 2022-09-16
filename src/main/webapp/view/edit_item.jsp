@@ -110,7 +110,13 @@ int id = Integer.parseInt(param2);
 			<textarea name="syousai" rows="4" cols="50" maxlength="250"><% if(syo != null) { %><%=replaceEscapeChar(syo)%><%} %></textarea>
 		</p>
 		<p>
-			商品画像： <input type="file" name="picture" >
+			商品画像： 
+			
+			<label>
+			<span style="padding: 0.5em 1em; background: #f0f7ff; border: dashed 2px #5b8bd0;">変更する場合選択してください👼</span><input type="file" name="picture" style="display:none">
+			</label>
+			<br>
+			現在の画像:<%if(pi !=null){ %><%=replaceEscapeChar(pi)%><%}else{ %>なし<%} %><br>
 		</p>
 		<input type="submit" value="変更する">
 	</form>
